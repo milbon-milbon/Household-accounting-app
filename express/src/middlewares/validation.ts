@@ -45,20 +45,10 @@ export function transactionValidationRules() {
   return [
     checkIsInt("user_id"),
     checkIsFloatPositive("amount"),
-    // checkIsInt('category_id').optional(),  // オプショナルに変更
-    // checkIsInt('account_id').optional(),   // オプショナルに変更
     checkIsISO8601("date"),
     checkOptionalString("details"),
   ];
 }
-
-// export function categoryValidationRules() {
-//   [checkNotEmpty("name")];
-// }
-
-// export function accountValidationRules() {
-//   [checkNotEmpty("name"), checkIsFloatPositive("balance")];
-// }
 
 // バリデーションエラーの処理
 export function validate(req: Request, res: Response, next: NextFunction) {

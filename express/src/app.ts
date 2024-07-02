@@ -5,8 +5,6 @@ import { PrismaClient } from "@prisma/client";
 
 import userRouter from "./router/user";
 import TransactionRouter from "./router/transaction";
-// import CategorieRouter from './router/categorie';
-// import AccountsRouter from './router/account';
 import { invalidJsonHandler } from "./middlewares/validation";
 import logger from "./context/logger";
 
@@ -39,17 +37,10 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 app.use("/users", userRouter);
 app.use("/transactions", TransactionRouter);
-// app.use('/categorie', CategorieRouter);
-// app.use('/account', AccountsRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
-
-// errorエンドポイントを追加※（ESlint）定義されているが使用されていない変数や引数のため一旦コメントアウト
-// app.get("/error", (_req, _res) => {
-//   throw new Error("This is a test error");
-// });
 
 // エラーハンドリングミドルウェアを追加
 app.use((err: Error, _req: Request, res: Response) => {
