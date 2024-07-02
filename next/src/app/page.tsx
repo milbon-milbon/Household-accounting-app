@@ -1,70 +1,82 @@
 //ルートパス（/）に対応するページコンポーネントです。ホームページの内容を定義
 
 "use client";
-import React, { useState, useEffect } from 'react';
-import List from '../components/List';
-import Summary from '../components/Summary';
-import { Transaction } from '../types';
-import Form from '../components/Form';
-
+import React, { useState, useEffect } from "react";
+import List from "../components/List";
+import Summary from "../components/Summary";
+import { Transaction } from "../types";
+import Form from "../components/Form";
 
 // HomePageって名前のReact Functional Componentを
 const HomePage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   useEffect(() => {
     fetch(`${apiUrl}/transactions`)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
-      .then(data => {
-        if (data) {
-          setTransactions(data); // レスポンスが { transactions: [...] } の形式であることを確認
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setTransactions(data);
         } else {
-          throw new Error('Invalid response format');
+          throw new Error(
+            'Invalid response format: missing or invalid "transactions" array',
+          );
         }
       })
-      .catch(error => {
-        console.error('Error fetching transactions:', error);
+      .catch((error) => {
+        console.error("Error fetching transactions:", error.message);
       });
   }, [apiUrl]);
-  const handleFormSubmit = (newTransaction: { date: string; amount: number; type: string; details: string; user_id: number }) => {
+
+  const handleFormSubmit = (newTransaction: {
+    id: number;
+    date: string;
+    amount: number;
+    type: string;
+    details: string;
+    userId: number;
+  }) => {
     fetch(`${apiUrl}/transactions`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newTransaction),
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         setTransactions([...transactions, data]);
       })
-      .catch(error => {
-        console.error('Error adding transaction:', error);
+      .catch((error) => {
+        console.error("Error adding transaction:", error);
       });
   };
+
   const handleDelete = (id: number) => {
     fetch(`${apiUrl}/transactions/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        setTransactions(transactions.filter(transaction => transaction.id !== id));
+        setTransactions(
+          transactions.filter((transaction) => transaction.id !== id),
+        );
       })
-      .catch(error => {
-        console.error('Error deleting transaction:', error);
+      .catch((error) => {
+        console.error("Error deleting transaction:", error);
       });
   };
 
@@ -72,8 +84,10 @@ const HomePage: React.FC = () => {
   return (
     <div className="flex-container">
       <Form onSubmit={handleFormSubmit} />
-      <List transactions={transactions} onDelete={handleDelete} /> {/* Listコンポーネントにtransactionsの状態を渡し取引リストを表示 */}
-      <Summary transactions={transactions} /> {/* Summaryコンポーネントにtransactionsの状態を渡して、取引の要約を表示 */}
+      <List transactions={transactions} onDelete={handleDelete} />{" "}
+      {/* Listコンポーネントにtransactionsの状態を渡し取引リストを表示 */}
+      <Summary transactions={transactions} />{" "}
+      {/* Summaryコンポーネントにtransactionsの状態を渡して、取引の要約を表示 */}
     </div>
   );
 };

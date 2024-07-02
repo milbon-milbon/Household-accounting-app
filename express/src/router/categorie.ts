@@ -1,57 +1,81 @@
+// import { Router, Request, Response } from "express";
+// // import { PrismaClient } from '@prisma/client';
+// import { categoryValidationRules, validate } from '../middlewares/validation';
 
-import { Router, Request, Response } from "express";
-import { categoryValidationRules, validate } from '../middlewares/validation';
+// const CategoryRouter = Router();
+// // const prisma = new PrismaClient();
 
-const CategorieRouter = Router();
+// // 全カテゴリーの取得
+// CategoryRouter.get('/', async (req, res) => {
+//   try {
+//     const categories = await prisma.category.findMany();
+//     res.json(categories);
+//   } catch (error) {
+//     console.error('Error fetching categories:', (error as Error).message);
+//     res.status(500).json({ error: 'カテゴリーの取得に失敗しました。', details: (error as Error).message });
+//   }
+// });
 
-// 仮のデータベース 
-const categories = [
-  { id: 1, name: "Food" },
-  { id: 2, name: "Transport" }
-];
+// // 特定カテゴリーの取得
+// CategoryRouter.get('/:id', async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   try {
+//     const category = await prisma.category.findUnique({ where: { id } });
+//     if (category) {
+//       res.json(category);
+//     } else {
+//       res.status(404).send('カテゴリーが見つかりません。');
+//     }
+//   } catch (error) {
+//     console.error('Error fetching category:', (error as Error).message);
+//     res.status(500).json({ error: 'カテゴリーの取得に失敗しました。', details: (error as Error).message });
+//   }
+// });
 
-// 全カテゴリーの取得
-CategorieRouter.get('/', (req, res) => {
-  res.json({ categories });
-});
+// // 新しいカテゴリーの作成
+// CategoryRouter.post('/', categoryValidationRules(), validate, async (req, res) => {
+//   const { name } = req.body;
+//   try {
+//     const newCategory = await prisma.category.create({
+//       data: {
+//         name,
+//       },
+//     });
+//     res.status(201).json(newCategory);
+//   } catch (error) {
+//     console.error('Error creating category:', (error as Error).message);
+//     res.status(500).json({ error: 'カテゴリーの作成に失敗しました。', details: (error as Error).message });
+//   }
+// });
 
-// 特定カテゴリーの取得
-CategorieRouter.get('/:id', (req, res) => {
-  const cate = categories.find(u => u.id === parseInt(req.params.id));
-  if (cate) {
-    res.json(cate);
-  } else {
-    res.status(404).send('categories not found');
-  }
-});
+// // 特定カテゴリーの更新
+// CategoryRouter.put('/:id', categoryValidationRules(), validate, async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   const { name } = req.body;
+//   try {
+//     const updatedCategory = await prisma.category.update({
+//       where: { id },
+//       data: {
+//         name,
+//       },
+//     });
+//     res.json(updatedCategory);
+//   } catch (error) {
+//     console.error('Error updating category:', (error as Error).message);
+//     res.status(500).json({ error: 'カテゴリーの更新に失敗しました。', details: (error as Error).message });
+//   }
+// });
 
-// 新しいカテゴリーの作成
-CategorieRouter.post('/', categoryValidationRules(), validate, (req: Request, res: Response) => {
-  const newCategory = { id: categories.length + 1, ...req.body };
-  categories.push(newCategory);
-  res.status(201).json(newCategory);
-});
+// // 特定カテゴリーの削除
+// CategoryRouter.delete('/:id', async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   try {
+//     await prisma.category.delete({ where: { id } });
+//     res.status(204).send();
+//   } catch (error) {
+//     console.error('Error deleting category:', (error as Error).message);
+//     res.status(500).json({ error: 'カテゴリーの削除に失敗しました。', details: (error as Error).message });
+//   }
+// });
 
-// 特定カテゴリーの更新
-CategorieRouter.put('/:id', categoryValidationRules(), validate, (req: Request, res: Response) => {
-  const cate = categories.find(u => u.id === parseInt(req.params.id));
-  if (cate) {
-    Object.assign(cate, req.body);
-    res.json(cate);
-  } else {
-    res.status(404).send('Category not found');
-  }
-});
-
-// 特定カテゴリーの削除
-CategorieRouter.delete('/:id', (req, res) => {
-  const index = categories.findIndex(u => u.id === parseInt(req.params.id));
-  if (index !== -1) {
-    categories.splice(index, 1);
-    res.status(204).send();
-  } else {
-    res.status(404).send('categories not found');
-  }
-});
-
-export default CategorieRouter;
+// export default CategoryRouter;

@@ -1,10 +1,11 @@
-import '../styles/globals.css'; // グローバルスタイルのインポート 
+import "../styles/globals.css"; // グローバルスタイルのインポート
+import React, { ReactNode } from "react";
 
-interface LayoutProps {
-  children: React.ReactNode;
+interface Props {
+  children: ReactNode;
 }
 
-const RootLayout: React.FC<LayoutProps> = ({ children }) => {
+const RootLayout: React.FC<Props> = ({ children }) => {
   return (
     <html lang="ja">
       <head>
@@ -18,9 +19,7 @@ const RootLayout: React.FC<LayoutProps> = ({ children }) => {
             <h1>家計簿アプリ</h1>
           </div>
         </header>
-        <main className="container">
-          {children}
-        </main>
+        <main className="container">{children}</main>
         <footer className="footer">
           <div className="container">
             <p>&copy; 2024 家計簿アプリ</p>

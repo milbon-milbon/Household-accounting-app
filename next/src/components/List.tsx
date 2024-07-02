@@ -2,15 +2,24 @@
 
 "use client";
 
-import Link from 'next/link';
-import { Transaction } from '../types';
+import Link from "next/link";
+import React from "react";
 
-interface ListProps {
-  transactions: Transaction[];
-  onDelete: (id: number) => void; // 削除関数を受け取る 
+export interface Transaction {
+  id: number;
+  date: string;
+  amount: number;
+  type: string;
+  details: string;
+  userId: number;
 }
 
-const List: React.FC<ListProps> = ({ transactions, onDelete }) => {
+interface Props {
+  transactions: Transaction[];
+  onDelete: (id: number) => void; // 削除関数を受け取る
+}
+
+const List: React.FC<Props> = ({ transactions, onDelete }) => {
   if (!transactions || transactions.length === 0) {
     return <div>取引がありません</div>;
   }
@@ -18,7 +27,7 @@ const List: React.FC<ListProps> = ({ transactions, onDelete }) => {
     <div>
       <h2>取引明細</h2>
       <ul>
-        {transactions.map(transaction => (
+        {transactions.map((transaction) => (
           <li key={transaction.id}>
             <div className="transaction-info">
               {transaction.date} - {transaction.amount}円 - {transaction.type}
@@ -27,7 +36,8 @@ const List: React.FC<ListProps> = ({ transactions, onDelete }) => {
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>
               </Link>
-              <button onClick={() => onDelete(transaction.id)}>削除</button> {/* 削除ボタン */}
+              <button onClick={() => onDelete(transaction.id)}>削除</button>{" "}
+              {/* 削除ボタン */}
             </div>
           </li>
         ))}

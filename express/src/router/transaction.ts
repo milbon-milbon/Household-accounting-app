@@ -1,7 +1,7 @@
 // transaction.ts
 import { Router, Request, Response } from "express";
-import { transactionValidationRules, validate } from '../middlewares/validation';
 import { PrismaClient } from '@prisma/client';
+import { transactionValidationRules, validate } from '../middlewares/validation';
 
 const transactionRouter = Router();
 const prisma = new PrismaClient();
@@ -11,7 +11,7 @@ transactionRouter.get('/', async (req: Request, res: Response) => {
   try {
     const transactions = await prisma.transaction.findMany();
     res.json(transactions);
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Error fetching transactions:', (error as Error).message);
     res.status(500).json({ error: '取引の取得に失敗しました。', details: (error as Error).message });
   }
