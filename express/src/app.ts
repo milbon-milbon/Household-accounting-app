@@ -9,11 +9,10 @@ import { invalidJsonHandler } from "./middlewares/validation";
 import logger from "./context/logger";
 
 const app = express();
-const port = 4000;
 const prisma = new PrismaClient();
+const port = process.env.PORT || 4000;
 
 // morgan のログを winston を経由して出力する
-// combined フォーマットで出力し、ログレベルは info に設定
 app.use(
   morgan("combined", {
     stream: {
@@ -38,6 +37,14 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 app.use("/users", userRouter);
 app.use("/transactions", TransactionRouter);
 
+app.get("/favicon.ico", (req, res) => res.status(204)); //ラウザが/favicon.icoにアクセスしているときにエラーが発生
+
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    logger.debug(`Server running on http://localhost:${port}`);
+  });
+}
+
 app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
@@ -46,10 +53,6 @@ app.get("/", (_req, res) => {
 app.use((err: Error, _req: Request, res: Response) => {
   logger.error(err.stack || err.message);
   res.status(500).send("Something broke!");
-});
-
-app.listen(port, () => {
-  logger.debug(`Server running on http://localhost:${port}`);
 });
 
 //Prismaクライアントのシャットダウン処理を追加
