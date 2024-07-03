@@ -43,7 +43,7 @@ export function userValidationRules() {
 
 export function transactionValidationRules() {
   return [
-    checkIsInt("user_id"),
+    checkIsInt("userId"),
     checkIsFloatPositive("amount"),
     checkIsISO8601("date"),
     checkOptionalString("details"),

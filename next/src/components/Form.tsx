@@ -7,7 +7,7 @@ interface FormProps {
     amount: number;
     type: string;
     details: string;
-    user_id: number;
+    userId: number;
   }) => void;
   initialValues?: {
     id: number;
@@ -38,7 +38,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       amount: parseFloat(amount),
       type,
       details,
-      user_id: parseInt(userId),
+      userId: parseInt(userId),
     };
 
     try {

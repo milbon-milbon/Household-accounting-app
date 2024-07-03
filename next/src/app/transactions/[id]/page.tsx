@@ -39,7 +39,7 @@ const DetailPage: React.FC = () => {
     amount: number;
     type: string;
     details: string;
-    user_id: number;
+    userId: number;
   }) => {
     if (transaction) {
       fetch(`${apiUrl}/transactions/${transaction.id}`, {
