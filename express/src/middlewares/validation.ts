@@ -1,5 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { body, validationResult, ValidationError } from "express-validator";
+import {
+  body,
+  param,
+  validationResult,
+  ValidationError,
+  ValidationChain,
+} from "express-validator";
+
+type Method = "POST" | "PUT" | "DELETE" | "GET";
 
 // 共通のバリデーションルール(モジュール化)
 const checkNotEmpty = (field: string) =>
@@ -41,20 +49,80 @@ export function userValidationRules() {
   return [checkNotEmpty("name"), checkIsEmail()];
 }
 
-export function transactionValidationRules() {
-  return [
-    checkIsInt("userId"),
-    checkIsFloatPositive("amount"),
-    checkIsISO8601("date"),
-    checkOptionalString("details"),
-  ];
+// 取引バリデーションルール
+
+export function transactionValidationRules(method: Method): ValidationChain[] {
+  if (method === "POST") {
+    return [
+      body("date")
+        .notEmpty()
+        .withMessage("Date is required.")
+        .isISO8601()
+        .withMessage("Invalid date format."),
+      body("amount")
+        .notEmpty()
+        .withMessage("Amount is required.")
+        .isFloat()
+        .withMessage("Invalid amount format."),
+      body("type")
+        .notEmpty()
+        .withMessage("Type is required.")
+        .isString()
+        .withMessage("Invalid type format."),
+      body("details")
+        .optional()
+        .isString()
+        .withMessage("Invalid details format."),
+      body("userId")
+        .notEmpty()
+        .withMessage("User ID is required.")
+        .isInt()
+        .withMessage("Invalid user ID format."),
+    ];
+  } else if (method === "PUT") {
+    return [
+      param("id").isInt().withMessage("Invalid ID format."),
+      body("date")
+        .notEmpty()
+        .withMessage("Date is required.")
+        .isISO8601()
+        .withMessage("Invalid date format."),
+      body("amount")
+        .notEmpty()
+        .withMessage("Amount is required.")
+        .isFloat()
+        .withMessage("Invalid amount format."),
+      body("type")
+        .notEmpty()
+        .withMessage("Type is required.")
+        .isString()
+        .withMessage("Invalid type format."),
+      body("details")
+        .optional()
+        .isString()
+        .withMessage("Invalid details format."),
+      body("userId")
+        .notEmpty()
+        .withMessage("User ID is required.")
+        .isInt()
+        .withMessage("Invalid user ID format."),
+    ];
+  } else {
+    // デフォルトの戻り値として空の配列を返す
+    return [];
+  }
 }
+
+// IDバリデーションルール
+export const idValidationRules = () => {
+  return [param("id").isInt().withMessage("Invalid ID format.")];
+};
 
 // バリデーションエラーの処理
 export function validate(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({
+    return res.status(400).json({
       errors: errors.array().map((error: ValidationError) => ({
         param: error.param,
         msg: error.msg,

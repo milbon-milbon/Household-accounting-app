@@ -24,3 +24,6 @@ Dockerfile
 # Specific folders to ignore (excluding express and next directories)
 !express/
 !next/
+
+# Ignore the .next directory
+.next
