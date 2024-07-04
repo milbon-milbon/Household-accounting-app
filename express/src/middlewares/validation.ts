@@ -68,11 +68,15 @@ export function transactionValidationRules(method: Method): ValidationChain[] {
         .notEmpty()
         .withMessage("Type is required.")
         .isString()
-        .withMessage("Invalid type format."),
+        .withMessage("Invalid type format.")
+        .isLength({ max: 191 })
+        .withMessage("Type must be at most 191 characters long."),
       body("details")
         .optional()
         .isString()
-        .withMessage("Invalid details format."),
+        .withMessage("Invalid details format.")
+        .isLength({ max: 191 })
+        .withMessage("Type must be at most 191 characters long."),
       body("userId")
         .notEmpty()
         .withMessage("User ID is required.")
@@ -96,11 +100,15 @@ export function transactionValidationRules(method: Method): ValidationChain[] {
         .notEmpty()
         .withMessage("Type is required.")
         .isString()
-        .withMessage("Invalid type format."),
+        .withMessage("Invalid type format.")
+        .isLength({ max: 191 })
+        .withMessage("Type must be at most 191 characters long."),
       body("details")
         .optional()
         .isString()
-        .withMessage("Invalid details format."),
+        .withMessage("Invalid details format.")
+        .isLength({ max: 191 })
+        .withMessage("Type must be at most 191 characters long."),
       body("userId")
         .notEmpty()
         .withMessage("User ID is required.")
