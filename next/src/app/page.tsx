@@ -10,6 +10,8 @@ import Form from "../components/Form";
 // HomePageって名前のReact Functional Componentを
 const HomePage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   useEffect(() => {
@@ -31,11 +33,14 @@ const HomePage: React.FC = () => {
       })
       .catch((error) => {
         console.error("Error fetching transactions:", error.message);
+        setErrorMessage("取引の取得中にエラーが発生しました");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [apiUrl]);
 
   const handleFormSubmit = (newTransaction: {
-    id: number;
     date: string;
     amount: number;
     type: string;
@@ -79,17 +84,24 @@ const HomePage: React.FC = () => {
         console.error("Error deleting transaction:", error);
       });
   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   //レンダリング
   return (
     <div className="flex-container">
-      <Form onSubmit={handleFormSubmit} />
-      <List transactions={transactions} onDelete={handleDelete} />{" "}
-      {/* Listコンポーネントにtransactionsの状態を渡し取引リストを表示 */}
-      <Summary transactions={transactions} />{" "}
-      {/* Summaryコンポーネントにtransactionsの状態を渡して、取引の要約を表示 */}
+      {errorMessage ? (
+        <div>{errorMessage}</div>
+      ) : (
+        <>
+          <Form onSubmit={handleFormSubmit} />
+          <List transactions={transactions} onDelete={handleDelete} />{" "}
+          <Summary transactions={transactions} />{" "}
+        </>
+      )}
     </div>
   );
 };
 
-export default HomePage; // HomePageコンポーネントをエクスポート
+export default HomePage;

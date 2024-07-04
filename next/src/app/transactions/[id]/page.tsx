@@ -13,7 +13,7 @@ const DetailPage: React.FC = () => {
     undefined,
   );
   const [isEditing, setIsEditing] = useState(false); // 編集モードの状態を管理
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"; // 環境変数からAPIのURLを取得※Docker環境ではlocalhostは正しいホスト名ではないので、ここで定義する
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   useEffect(() => {
     const id = pathname?.split("/").pop();
