@@ -18,31 +18,6 @@ const checkNotEmpty = (field: string) =>
     );
 const checkIsEmail = () =>
   body("email").isEmail().withMessage("Email is invalid");
-const checkIsInt = (field: string) =>
-  body(field)
-    .isInt()
-    .withMessage(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} must be an integer`,
-    );
-const checkIsFloatPositive = (field: string) =>
-  body(field)
-    .isFloat({ gt: 0 })
-    .withMessage(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} must be a positive number`,
-    );
-const checkIsISO8601 = (field: string) =>
-  body(field)
-    .isISO8601()
-    .withMessage(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} must be a valid ISO 8601 date`,
-    );
-const checkOptionalString = (field: string) =>
-  body(field)
-    .optional()
-    .isString()
-    .withMessage(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} must be a string`,
-    );
 
 // バリデーションルールのセット
 export function userValidationRules() {

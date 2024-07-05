@@ -23,7 +23,7 @@ describe("PUT /transactions/:id", () => {
       userId: 1,
     };
     const response = await request(app)
-      .put("/transactions/59")
+      .put("/transactions/85")
       .send(updatedTransaction);
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject(updatedTransaction);

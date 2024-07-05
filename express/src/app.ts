@@ -37,7 +37,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 app.use("/users", userRouter);
 app.use("/transactions", TransactionRouter);
 
-app.get("/favicon.ico", (_req, res) => res.status(204)); //ラウザが/favicon.icoにアクセスしているときにエラーが発生すので追加
+app.get("/favicon.ico", (_req, res) => res.status(204));
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {

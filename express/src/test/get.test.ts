@@ -38,8 +38,6 @@ describe("GET /transactions", () => {
 
 //正常系（特定ID）
 describe("GET /transactions/:id", () => {
-  let server: http.Server;
-
   it("should return a specific transaction", async () => {
     const response = await request(app).get("/transactions/60");
     expect(response.status).toBe(200);
@@ -56,8 +54,6 @@ describe("GET /transactions/:id", () => {
 
 //異常系（特定ID）
 describe("GET /transactions/:id", () => {
-  let server: http.Server;
-
   it("should return 400 if ID is not a number", async () => {
     const response = await request(app).get("/transactions/abc");
     expect(response.status).toBe(400);

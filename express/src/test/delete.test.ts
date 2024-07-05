@@ -15,7 +15,7 @@ describe("DELETE /transactions/:id", () => {
 
   //正常系
   it("should delete a transaction", async () => {
-    const response = await request(app).delete("/transactions/54");
+    const response = await request(app).delete("/transactions/113");
     expect(response.status).toBe(204);
   });
 

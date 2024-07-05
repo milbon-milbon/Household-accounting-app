@@ -31,8 +31,6 @@ describe("POST /transactions", () => {
       .post("/transactions")
       .send(newTransaction);
 
-    console.log("Response:", response.body); // レスポンスの内容をログ出力
-
     expect(response.status).toBe(201);
     expect(response.body).toMatchObject(newTransaction);
   });
@@ -57,8 +55,6 @@ it("should return 400 if `type` field exceeds the maximum length", async () => {
   const response = await request(app)
     .post("/transactions")
     .send(newTransaction);
-
-  console.log("Response:", response.body); // レスポンスの内容をログ出力
 
   expect(response.status).toBe(400);
   expect(response.body.errors).toEqual(
@@ -85,8 +81,6 @@ it("should create a new transaction", async () => {
     .post("/transactions")
     .send(newTransaction);
 
-  console.log("Response:", response.body); // レスポンスの内容をログ出力
-
   expect(response.status).toBe(201);
   expect(response.body).toMatchObject(newTransaction);
 });
@@ -105,8 +99,6 @@ it("should return 400 if `details` field exceeds the maximum length", async () =
   const response = await request(app)
     .post("/transactions")
     .send(newTransaction);
-
-  console.log("Response:", response.body); // レスポンスの内容をログ出力
 
   expect(response.status).toBe(400);
   expect(response.body.errors).toEqual(
@@ -132,8 +124,6 @@ it("should create a new transaction", async () => {
   const response = await request(app)
     .post("/transactions")
     .send(newTransaction);
-
-  console.log("Response:", response.body); // レスポンスの内容をログ出力
 
   expect(response.status).toBe(201);
   expect(response.body).toMatchObject(newTransaction);

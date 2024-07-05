@@ -67,7 +67,7 @@ transactionRouter.post(
     } catch (error) {
       console.error("Error creating transaction:", (error as Error).message);
       res.status(500).json({
-        error: "取引の作成に失敗しました。",
+        error: "取引の作成に失敗しました。IDを確認してください",
         details: (error as Error).message,
       });
     }
@@ -107,7 +107,7 @@ transactionRouter.put(
       }
       console.error("Error updating transaction:", (error as Error).message);
       res.status(500).json({
-        error: "取引の更新に失敗しました。",
+        error: "取引の更新に失敗しました。IDを確認してください",
         details: (error as Error).message,
       });
     }
