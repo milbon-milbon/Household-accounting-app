@@ -24,20 +24,23 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
     return <div>取引がありません</div>;
   }
   return (
-    <div>
+    <div className="list-container">
       <h2>取引明細</h2>
       <ul>
         {transactions.map((transaction) => (
           <li key={transaction.id}>
             <div className="transaction-info">
-              {transaction.date} - {transaction.amount}円 - {transaction.type}
-            </div>
-            <div className="transaction-actions">
+              [{transaction.id}] {transaction.date.substring(0, 10)} -{" "}
+              {transaction.amount}円 - {transaction.type}
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>
               </Link>
-              <button onClick={() => onDelete(transaction.id)}>削除</button>{" "}
-              {/* 削除ボタン */}
+              <button
+                className="button-delete"
+                onClick={() => onDelete(transaction.id)}
+              >
+                削除
+              </button>{" "}
             </div>
           </li>
         ))}
@@ -46,4 +49,4 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
   );
 };
 
-export default List; // Listコンポーネントをエクスポート
+export default List;

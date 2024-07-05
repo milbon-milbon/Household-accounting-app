@@ -16,14 +16,14 @@ describe("PUT /transactions/:id", () => {
   //正常系
   it("should update a transaction", async () => {
     const updatedTransaction = {
-      date: "2024-08-11T10:49:13.977Z",
+      date: "2024-07-05T10:49:13.977Z",
       amount: 1500,
       type: "出金",
-      details: "Updated Deposit",
+      details: "更新したよ❣",
       userId: 1,
     };
     const response = await request(app)
-      .put("/transactions/85")
+      .put("/transactions/135")
       .send(updatedTransaction);
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject(updatedTransaction);

@@ -10,9 +10,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
-
     "plugins": [
       {
         "name": "next"
@@ -24,7 +23,9 @@
     },
     "types": [
       "@testing-library/jest-dom",
-      "@testing-library/react" // 追加
+      "@testing-library/react", // 追加
+      "node",
+      "jest"
     ]
   },
   "include": [

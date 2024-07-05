@@ -1,8 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
+// 環境変数からAPIのURLを取得し、必要に応じてhttpsをhttpに置き換え
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
 interface FormProps {
   onSubmit: (transaction: {
+    id: number; // ここに `id` プロパティを追加
     date: string;
     amount: number;
     type: string;
@@ -29,11 +33,20 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // デフォルトのフォーム送信動作を抑制
+
+    console.log("handleSubmit called");
+
+    if (isSubmitting) {
+      console.log("Already submitting");
+      return;
+    }
+
     setError(null); // 送信時にエラーをクリア
     setIsSubmitting(true); // 送信中に設定
 
     const transaction = {
+      id: Math.random(), // ここで id を生成
       date,
       amount: parseFloat(amount),
       type,
@@ -41,19 +54,16 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       userId: parseInt(userId),
     };
 
-    try {
-      onSubmit(transaction);
-      setDate("");
-      setAmount("");
-      setType("");
-      setDetails("");
-      setUserId("");
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setIsSubmitting(false); // 送信完了後に送信状態をリセット
-    }
+    console.log("Request successful");
+    onSubmit(transaction);
+    setDate("");
+    setAmount("");
+    setType("");
+    setDetails("");
+    setUserId("");
+    setIsSubmitting(false); // 送信完了後に送信状態をリセット
   };
+
   useEffect(() => {
     if (initialValues) {
       setDate(initialValues.date);
@@ -66,6 +76,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div>家計の登録フォーム</div>
       <div>
         <label>日付:</label>
         <input
@@ -110,12 +121,16 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
           required
         />
       </div>
-      {error && <div style={{ color: "red" }}>{error}</div>}{" "}
-      {/* エラーメッセージを表示 */}
-      <button type="submit" disabled={isSubmitting}>
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      <button
+        type="submit"
+        className="rounded-button"
+        disabled={isSubmitting}
+        onClick={() => console.log("Submit button clicked")} // ここにログを追加
+        style={{ width: "200px" }}
+      >
         登録
-      </button>{" "}
-      {/* 送信中はボタンを無効化 */}
+      </button>
     </form>
   );
 };

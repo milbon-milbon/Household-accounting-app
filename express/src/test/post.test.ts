@@ -21,7 +21,7 @@ describe("POST /transactions", () => {
   it("should create a new transaction", async () => {
     const newTransaction = {
       date: "2024-08-11T10:49:13.977Z",
-      amount: 1000,
+      amount: 5555,
       type: "入金",
       details: "Test Deposit",
       userId: 1,
@@ -72,7 +72,7 @@ it("should create a new transaction", async () => {
   const newTransaction = {
     date: "2024-08-11T10:49:13.977Z",
     amount: 1000,
-    type: "a".repeat(191), // 192文字の長い文字列
+    type: "a".repeat(191), //191文字
     details: "Test Deposit",
     userId: 1,
   };

@@ -41,6 +41,7 @@ const HomePage: React.FC = () => {
   }, [apiUrl]);
 
   const handleFormSubmit = (newTransaction: {
+    id: number;
     date: string;
     amount: number;
     type: string;
