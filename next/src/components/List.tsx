@@ -31,7 +31,8 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
           <li key={transaction.id}>
             <div className="transaction-info">
               [{transaction.id}] {transaction.date.substring(0, 10)} -{" "}
-              {transaction.amount}円 - {transaction.type}
+              {transaction.amount}円 - {transaction.type}- {transaction.details}{" "}
+              {/* detailsフィールドを表示 */}
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>
               </Link>

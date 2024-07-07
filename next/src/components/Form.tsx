@@ -6,7 +6,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 interface FormProps {
   onSubmit: (transaction: {
-    id: number; // ここに `id` プロパティを追加
+    id: number;
     date: string;
     amount: number;
     type: string;
@@ -31,38 +31,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
   const [userId, setUserId] = useState(initialValues?.userId.toString() || "");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // デフォルトのフォーム送信動作を抑制
-
-    console.log("handleSubmit called");
-
-    if (isSubmitting) {
-      console.log("Already submitting");
-      return;
-    }
-
-    setError(null); // 送信時にエラーをクリア
-    setIsSubmitting(true); // 送信中に設定
-
-    const transaction = {
-      id: Math.random(), // ここで id を生成
-      date,
-      amount: parseFloat(amount),
-      type,
-      details,
-      userId: parseInt(userId),
-    };
-
-    console.log("Request successful");
-    onSubmit(transaction);
-    setDate("");
-    setAmount("");
-    setType("");
-    setDetails("");
-    setUserId("");
-    setIsSubmitting(false); // 送信完了後に送信状態をリセット
-  };
+  const [isUserValid, setIsUserValid] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (initialValues) {
@@ -73,6 +42,54 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       setUserId(initialValues.userId.toString());
     }
   }, [initialValues]);
+
+  useEffect(() => {
+    const checkUserExists = async () => {
+      if (userId) {
+        const response = await fetch(`${apiUrl}/user-exists/${userId}`);
+        const result = await response.json();
+        setIsUserValid(result.exists);
+      } else {
+        setIsUserValid(null);
+      }
+    };
+    checkUserExists();
+  }, [userId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (isSubmitting || isUserValid === false) {
+      setError("無効なユーザーIDです");
+      return;
+    }
+
+    setError(null);
+    setIsSubmitting(true);
+
+    const transaction = {
+      id: Math.floor(Math.random() * 1000000),
+      date,
+      amount: parseFloat(amount),
+      type,
+      details,
+      userId: parseInt(userId),
+    };
+
+    try {
+      await onSubmit(transaction);
+      setDate("");
+      setAmount("");
+      setType("");
+      setDetails("");
+      setUserId("");
+    } catch (error) {
+      setError("取引の追加中にエラーが発生しました");
+      console.error("Error adding transaction:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -125,8 +142,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       <button
         type="submit"
         className="rounded-button"
-        disabled={isSubmitting}
-        onClick={() => console.log("Submit button clicked")} // ここにログを追加
+        disabled={isSubmitting || isUserValid === false}
         style={{ width: "200px" }}
       >
         登録

@@ -1,53 +1,36 @@
-//ルートパス（/）に対応するページコンポーネントです。ホームページの内容を定義
-
 "use client";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 import List from "../components/List";
 import Summary from "../components/Summary";
 import { Transaction } from "../types";
 import Form from "../components/Form";
 
-// HomePageって名前のReact Functional Componentを
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const HomePage: React.FC = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const {
+    data: transactions,
+    error,
+    mutate,
+  } = useSWR<Transaction[]>(`${apiUrl}/transactions`, fetcher);
 
-  useEffect(() => {
-    fetch(`${apiUrl}/transactions`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setTransactions(data);
-        } else {
-          throw new Error(
-            'Invalid response format: missing or invalid "transactions" array',
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching transactions:", error.message);
-        setErrorMessage("取引の取得中にエラーが発生しました");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [apiUrl]);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [userExists, setUserExists] = useState<boolean | null>(null);
 
-  const handleFormSubmit = (newTransaction: {
-    id: number;
-    date: string;
-    amount: number;
-    type: string;
-    details: string;
-    userId: number;
-  }) => {
+  const checkUserExists = async (id: number) => {
+    const response = await fetch(`${apiUrl}/user-exists/${id}`);
+    const result = await response.json();
+    setUserExists(result.exists);
+  };
+
+  const handleFormSubmit = (newTransaction: Transaction) => {
+    if (userExists === false) {
+      alert("無効なユーザーIDです");
+      return;
+    }
+
     fetch(`${apiUrl}/transactions`, {
       method: "POST",
       headers: {
@@ -62,7 +45,7 @@ const HomePage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        setTransactions([...transactions, data]);
+        mutate([...transactions!, data], false); // ローカルデータを更新して再フェッチをトリガー
       })
       .catch((error) => {
         console.error("Error adding transaction:", error);
@@ -77,30 +60,34 @@ const HomePage: React.FC = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        setTransactions(
-          transactions.filter((transaction) => transaction.id !== id),
-        );
+        mutate(
+          transactions!.filter((transaction) => transaction.id !== id),
+          false,
+        ); // ローカルデータを更新して再フェッチをトリガー
       })
       .catch((error) => {
         console.error("Error deleting transaction:", error);
       });
   };
-  if (loading) {
+
+  useEffect(() => {
+    if (userId !== null) {
+      checkUserExists(userId);
+    }
+  }, [userId]);
+
+  if (error) {
+    return <div>取引の取得中にエラーが発生しました</div>;
+  }
+  if (!transactions) {
     return <div>Loading...</div>;
   }
 
-  //レンダリング
   return (
     <div className="flex-container">
-      {errorMessage ? (
-        <div>{errorMessage}</div>
-      ) : (
-        <>
-          <Form onSubmit={handleFormSubmit} />
-          <List transactions={transactions} onDelete={handleDelete} />{" "}
-          <Summary transactions={transactions} />{" "}
-        </>
-      )}
+      <Form onSubmit={handleFormSubmit} />
+      <List transactions={transactions} onDelete={handleDelete} />
+      <Summary transactions={transactions} />
     </div>
   );
 };

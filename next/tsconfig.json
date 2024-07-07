@@ -22,10 +22,10 @@
       "@/*": ["./src/*"]
     },
     "types": [
-      "@testing-library/jest-dom",
-      "@testing-library/react", // 追加
       "node",
-      "jest"
+      "jest",
+      "@testing-library/jest-dom",
+      "@testing-library/react"
     ]
   },
   "include": [
@@ -33,9 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/types/**/*.txs",
-    "src/**/*.ts",
-    "src/**/*.tsx"
+    "jest.config.js"
   ],
   "exclude": ["node_modules"]
 }
