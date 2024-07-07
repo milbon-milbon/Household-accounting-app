@@ -116,7 +116,12 @@ export function validate(req: Request, res: Response, next: NextFunction) {
 }
 
 // エラーハンドリングミドルウェア
-export function errorHandler(err: unknown, _req: Request, res: Response) {
+export function errorHandler(
+  err: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   console.error((err as Error).stack);
   res.status(500).json({ error: "Internal Server Error" });
 }

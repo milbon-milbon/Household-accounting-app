@@ -12,12 +12,10 @@ userRouter.get("/", async (req: Request, res: Response) => {
     res.json(users);
   } catch (error) {
     console.error("Error fetching users:", (error as Error).message);
-    res
-      .status(500)
-      .json({
-        error: "ユーザーの取得に失敗しました。",
-        details: (error as Error).message,
-      });
+    res.status(500).json({
+      error: "ユーザーの取得に失敗しました。",
+      details: (error as Error).message,
+    });
   }
 });
 
@@ -33,15 +31,30 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
     }
   } catch (error: unknown) {
     console.error("Error fetching user:", (error as Error).message);
-    res
-      .status(500)
-      .json({
-        error: "ユーザーの取得に失敗しました。",
-        details: (error as Error).message,
-      });
+    res.status(500).json({
+      error: "ユーザーの取得に失敗しました。",
+      details: (error as Error).message,
+    });
   }
 });
-
+//ユーザーが存在するかどうかのチェック
+userRouter.get("/user-exists/:id", async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (user) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error("Error checking user existence:", (error as Error).message);
+    res.status(500).json({
+      error: "Internal Server Error",
+      details: (error as Error).message,
+    });
+  }
+});
 // 新しいユーザーの作成
 userRouter.post(
   "/",
@@ -59,12 +72,10 @@ userRouter.post(
       res.status(201).json(newUser);
     } catch (error) {
       console.error("Error creating user:", (error as Error).message);
-      res
-        .status(500)
-        .json({
-          error: "ユーザーの作成に失敗しました。",
-          details: (error as Error).message,
-        });
+      res.status(500).json({
+        error: "ユーザーの作成に失敗しました。",
+        details: (error as Error).message,
+      });
     }
   },
 );
@@ -88,12 +99,10 @@ userRouter.put(
       res.json(updateduser);
     } catch (error) {
       console.error("Error updating user:", (error as Error).message);
-      res
-        .status(500)
-        .json({
-          error: "ユーザーの更新に失敗しました。",
-          details: (error as Error).message,
-        });
+      res.status(500).json({
+        error: "ユーザーの更新に失敗しました。",
+        details: (error as Error).message,
+      });
     }
   },
 );
@@ -106,13 +115,11 @@ userRouter.delete("/:id", async (req: Request, res: Response) => {
     res.status(204).send();
   } catch (error: unknown) {
     console.error("Error deleting user:", (error as Error).message);
-    res
-      .status(500)
-      .json({
-        error: "ユーザーの削除に失敗しました。",
-        details: (error as Error).message,
-      });
+    res.status(500).json({
+      error: "ユーザーの削除に失敗しました。",
+      details: (error as Error).message,
+    });
   }
 });
 
-export default userValidationRules;
+export default userRouter;

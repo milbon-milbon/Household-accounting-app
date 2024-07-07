@@ -39,6 +39,20 @@ app.use("/transactions", TransactionRouter);
 
 app.get("/favicon.ico", (_req, res) => res.status(204));
 
+// エラーハンドリングミドルウェアを追加
+app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+  logger.error((err as Error).stack || (err as Error).message);
+  res
+    .status(500)
+    .json({ error: "Internal Server Error", details: (err as Error).message });
+});
+
+//Prismaクライアントのシャットダウン処理を追加
+process.on("SIGINT", async () => {
+  await prisma.$disconnect();
+  process.exit();
+});
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
     logger.debug(`Server running on http://localhost:${port}`);
@@ -48,17 +62,4 @@ if (process.env.NODE_ENV !== "test") {
 app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
-
-// エラーハンドリングミドルウェアを追加
-app.use((err: Error, _req: Request, res: Response) => {
-  logger.error(err.stack || err.message);
-  res.status(500).send("Something broke!");
-});
-
-//Prismaクライアントのシャットダウン処理を追加
-process.on("SIGINT", async () => {
-  await prisma.$disconnect();
-  process.exit();
-});
-
 export default app;

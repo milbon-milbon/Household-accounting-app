@@ -27,3 +27,5 @@ Dockerfile
 
 # Ignore the .next directory
 next/.next
+playwright-report
+test-results

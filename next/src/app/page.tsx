@@ -20,14 +20,35 @@ const HomePage: React.FC = () => {
   const [userExists, setUserExists] = useState<boolean | null>(null);
 
   const checkUserExists = async (id: number) => {
-    const response = await fetch(`${apiUrl}/user-exists/${id}`);
-    const result = await response.json();
-    setUserExists(result.exists);
+    try {
+      console.log(`Checking user with ID: ${id}`);
+      const response = await fetch(`${apiUrl}/users/user-exists/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("checkUserExists result:", result);
+      setUserExists(result.exists);
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+      setUserExists(null); // エラーが発生した場合、userExistsをnullに設定する
+    }
   };
 
+  useEffect(() => {
+    if (userId !== null) {
+      checkUserExists(userId);
+    }
+  }, [userId]);
+
   const handleFormSubmit = (newTransaction: Transaction) => {
+    console.log("handleFormSubmit called with userExists:", userExists);
     if (userExists === false) {
       alert("無効なユーザーIDです");
+      return;
+    } else if (userExists === null) {
+      alert("ユーザーIDの確認中にエラーが発生しました");
       return;
     }
 
@@ -46,6 +67,7 @@ const HomePage: React.FC = () => {
       })
       .then((data) => {
         mutate([...transactions!, data], false); // ローカルデータを更新して再フェッチをトリガー
+        alert("登録が成功しました");
       })
       .catch((error) => {
         console.error("Error adding transaction:", error);
@@ -70,12 +92,6 @@ const HomePage: React.FC = () => {
       });
   };
 
-  useEffect(() => {
-    if (userId !== null) {
-      checkUserExists(userId);
-    }
-  }, [userId]);
-
   if (error) {
     return <div>取引の取得中にエラーが発生しました</div>;
   }
@@ -85,7 +101,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex-container">
-      <Form onSubmit={handleFormSubmit} />
+      <Form onSubmit={handleFormSubmit} setUserId={setUserId} />
       <List transactions={transactions} onDelete={handleDelete} />
       <Summary transactions={transactions} />
     </div>

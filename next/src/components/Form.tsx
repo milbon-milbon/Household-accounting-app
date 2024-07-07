@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from "react";
 
 // 環境変数からAPIのURLを取得し、必要に応じてhttpsをhttpに置き換え
@@ -21,14 +20,17 @@ interface FormProps {
     details: string;
     userId: number;
   };
+  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
+const Form: React.FC<FormProps> = ({ onSubmit, initialValues, setUserId }) => {
   const [date, setDate] = useState(initialValues?.date || "");
   const [amount, setAmount] = useState(initialValues?.amount.toString() || "");
   const [type, setType] = useState(initialValues?.type || "");
   const [details, setDetails] = useState(initialValues?.details || "");
-  const [userId, setUserId] = useState(initialValues?.userId.toString() || "");
+  const [userIdInput, setUserIdInput] = useState(
+    initialValues?.userId.toString() || "",
+  );
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUserValid, setIsUserValid] = useState<boolean | null>(null);
@@ -39,28 +41,36 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       setAmount(initialValues.amount.toString());
       setType(initialValues.type);
       setDetails(initialValues.details);
-      setUserId(initialValues.userId.toString());
+      setUserIdInput(initialValues.userId.toString());
     }
   }, [initialValues]);
 
   useEffect(() => {
     const checkUserExists = async () => {
-      if (userId) {
-        const response = await fetch(`${apiUrl}/user-exists/${userId}`);
+      if (userIdInput) {
+        console.log("Checking user with ID:", userIdInput); // 追加
+        const response = await fetch(
+          `${apiUrl}/users/user-exists/${userIdInput}`,
+        );
         const result = await response.json();
+        console.log("checkUserExists result:", result); // 追加
+
         setIsUserValid(result.exists);
+        setUserId(result.exists ? parseInt(userIdInput, 10) : null);
       } else {
         setIsUserValid(null);
+        setUserId(null);
       }
     };
     checkUserExists();
-  }, [userId]);
+  }, [userIdInput, setUserId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isSubmitting || isUserValid === false) {
       setError("無効なユーザーIDです");
+      window.alert("無効なユーザーIDです");
       return;
     }
 
@@ -73,7 +83,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       amount: parseFloat(amount),
       type,
       details,
-      userId: parseInt(userId),
+      userId: parseInt(userIdInput, 10),
     };
 
     try {
@@ -82,7 +92,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
       setAmount("");
       setType("");
       setDetails("");
-      setUserId("");
+      setUserIdInput("");
     } catch (error) {
       setError("取引の追加中にエラーが発生しました");
       console.error("Error adding transaction:", error);
@@ -95,8 +105,9 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
     <form onSubmit={handleSubmit}>
       <div>家計の登録フォーム</div>
       <div>
-        <label>日付:</label>
+        <label htmlFor="date">日付:</label>
         <input
+          id="date"
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
@@ -104,8 +115,9 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
         />
       </div>
       <div>
-        <label>金額:</label>
+        <label htmlFor="amount">金額:</label>
         <input
+          id="amount"
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
@@ -113,8 +125,9 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
         />
       </div>
       <div>
-        <label>種類:</label>
+        <label htmlFor="type">種類:</label>
         <input
+          id="type"
           type="text"
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -122,19 +135,21 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues }) => {
         />
       </div>
       <div>
-        <label>詳細:</label>
+        <label htmlFor="details">詳細:</label>
         <input
+          id="details"
           type="text"
           value={details}
           onChange={(e) => setDetails(e.target.value)}
         />
       </div>
       <div>
-        <label>ユーザID:</label>
+        <label htmlFor="userId">ユーザID:</label>
         <input
+          id="userId"
           type="number"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
+          value={userIdInput}
+          onChange={(e) => setUserIdInput(e.target.value)}
           required
         />
       </div>
