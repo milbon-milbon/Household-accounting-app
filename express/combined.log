@@ -1,4 +1,0 @@
-2024-07-03T10:20:35.556Z debug: Received request: GET /transactions
-2024-07-03T10:20:35.593Z info: ::ffff:127.0.0.1 - - [03/Jul/2024:10:20:35 +0000] "GET /transactions HTTP/1.1" 200 661 "-" "-"
-2024-07-03T10:20:35.631Z debug: Received request: POST /transactions
-2024-07-03T10:20:35.651Z info: ::ffff:127.0.0.1 - - [03/Jul/2024:10:20:35 +0000] "POST /transactions HTTP/1.1" 201 109 "-" "-"
