@@ -1,4 +1,32 @@
-node_modules
-.next/
-.env
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
 *.log
+npm-debug.log*
+
+# Docker
+docker-compose.override.yml
+Dockerfile
+.dockerignore
+
+# Environment variables
+.env
+
+# IDE specific files
+.vscode/
+.idea/
+
+# macOS specific files
+.DS_Store
+
+# Specific folders to ignore (excluding express and next directories)
+!express/
+!next/
+
+# Ignore the .next directory
+.next/
+playwright-report
+test-results
+next/.next/
