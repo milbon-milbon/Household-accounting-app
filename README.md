@@ -1,7 +1,3 @@
-こちらが、マークダウン形式に変換した内容です。
-
----
-
 # プロジェクト名
 
 このプロジェクトは、学習用に作成した[家計簿アプリ](https://github.com/milbon-milbon/Household-accounting-app.git) に関連する個人開発ウェブアプリケーションです。<br>
