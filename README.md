@@ -1,4 +1,4 @@
-# プロジェクト名
+# 家計簿アプリ
 
 このプロジェクトは、学習用に作成した[家計簿アプリ](https://github.com/milbon-milbon/Household-accounting-app.git) に関連する個人開発ウェブアプリケーションです。<br>
 取引データの管理やユーザー管理を行います。バックエンドにはNode.jsとExpress、フロントエンドにはReactが使用されています。
