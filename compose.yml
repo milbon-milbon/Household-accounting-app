@@ -1,4 +1,4 @@
-# version: "3.9" 
+# version: "3.9"
 
 services:
   next:
@@ -6,7 +6,7 @@ services:
       context: ./next
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - PORT=3000
     volumes:
@@ -22,8 +22,8 @@ services:
       dockerfile: Dockerfile
     tty: true
     ports:
-      - "4000:4000"
-      - "9229:9229"
+      - '4000:4000'
+      - '9229:9229'
     volumes:
       - ./express:/usr/src/app
     environment:
@@ -44,14 +44,13 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - '3306:3306'
     networks:
       - shared-network
 
 volumes:
   mysqldata:
 
-
 networks:
   shared-network:
-    external: true
+    driver: bridge

@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/setupTest.ts"],
   transform: {
@@ -17,3 +17,4 @@ module.exports = {
     "!src/**/index.ts",
   ],
 };
+export default config;

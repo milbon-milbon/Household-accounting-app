@@ -21,6 +21,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "(ssr)/./node_modules/next/dist/api/navigation.js":
+/*!**************************************************!*\
+  !*** ./node_modules/next/dist/api/navigation.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _client_components_navigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../client/components/navigation */ "(ssr)/./node_modules/next/dist/client/components/navigation.js");
+/* harmony import */ var _client_components_navigation__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_client_components_navigation__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _client_components_navigation__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _client_components_navigation__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
 /***/ "(ssr)/./node_modules/next/dist/client/add-base-path.js":
 /*!********************************************************!*\
   !*** ./node_modules/next/dist/client/add-base-path.js ***!
@@ -2009,7 +2026,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({\n    value: true\n}));
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\app-router.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/app-router.js");
 
 
 /***/ }),
@@ -2023,7 +2040,7 @@ module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\client-page.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/client-page.js");
 
 
 /***/ }),
@@ -2037,7 +2054,7 @@ module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\error-boundary.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/error-boundary.js");
 
 
 /***/ }),
@@ -2062,7 +2079,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({\n    value: true\n}));
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\layout-router.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/layout-router.js");
 
 
 /***/ }),
@@ -2076,7 +2093,7 @@ module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\not-found-boundary.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/not-found-boundary.js");
 
 
 /***/ }),
@@ -2101,7 +2118,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({\n    value: true\n}));
 "use strict";
 /* __next_internal_client_entry_do_not_use__  cjs */ 
 const { createProxy } = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-module.exports = createProxy("C:\\Users\\km315\\OneDrive\\デスクトップ\\bc_202406\\kumi_section_5\\next\\node_modules\\next\\dist\\client\\components\\render-from-template-context.js");
+module.exports = createProxy("/usr/src/app/node_modules/next/dist/client/components/render-from-template-context.js");
 
 
 /***/ }),
