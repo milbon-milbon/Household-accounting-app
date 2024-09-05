@@ -59,38 +59,7 @@ npm run dev
 ## テスト
 
 ### コードカバレッジ
-
-このプロジェクトでは、[Istanbul](https://istanbul.js.org/) を使用してコードカバレッジレポートが生成されます。カバレッジレポートを確認するには、以下のコマンドを実行してください。
-
-```bash
-npm run test:coverage
-```
-
 カバレッジの結果は `coverage/index.html` ファイルで確認できます。
-
-#### カバレッジレポートのサンプル
-
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Code coverage report for All files</title>
-    ...
-  </head>
-  <body>
-    <div class="wrapper">
-      <h1>All files</h1>
-      <div class="clearfix">
-        <div>Statements: 57.36%</div>
-        <div>Branches: 45.45%</div>
-        <div>Functions: 45%</div>
-        <div>Lines: 58.28%</div>
-      </div>
-      ...
-    </div>
-  </body>
-</html>
-```
 
 ### End-to-End テスト
 
