@@ -30,3 +30,17 @@ Dockerfile
 playwright-report
 test-results
 next/.next/
+
+# next/coverage ディレクトリ全体を無視
+next/coverage/*
+
+# express/coverage ディレクトリ全体を無視
+express/coverage/*
+
+# ただし coverage ディレクトリ自体は無視しない
+!next/coverage/
+!express/coverage/
+
+# HTMLファイルは追跡する
+!next/coverage/index.html
+!express/coverage/index.html
