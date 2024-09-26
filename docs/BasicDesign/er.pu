@@ -1,59 +1,62 @@
-@startuml app
+@startuml
+
 entity "Users" {
-  *id : integer
+  *id : integer <<PK>>
   --
-  member : string
-  name : string
-  mail : string
+  member : varchar(50)
+  name : varchar(100)
+  mail : varchar(100) <<unique>>
+  password_hash : varchar(255)
+  created_at : timestamp
+  updated_at : timestamp
 }
 
 entity "income_and_expenditure" {
-  *id : integer
+  *id : integer <<PK>>
   --
   category_id : integer <<FK>>
   user_id : integer <<FK>>
   transaction_id : integer <<FK>>
-  payment_type : string
+  payment_type : varchar(20)
   day : date
-  amount : integer
+  amount : decimal(10,2)
 }
 
 entity "category" {
-  *id : integer
+  *id : integer <<PK>>
   --
-  contents : string
+  contents : varchar(100)
 }
 
 entity "payment" {
-  *id : integer
+  *id : integer <<PK>>
   --
   user_id : integer <<FK>>
-  payment_items : string
+  payment_items : varchar(100)
 }
 
 entity "transaction" {
-  *id : integer
+  *id : integer <<PK>>
   --
   user_id : integer <<FK>>
   category_id : integer <<FK>>
   payment_id : integer <<FK>>
-  member : string
-  name : string
-  payment_items : string
-  payment_type : string
+  member : varchar(50)
+  name : varchar(100)
+  payment_items : varchar(100)
+  payment_type : varchar(20)
   day : date
-  amount : integer
-  contents : string
-  remarks : string
+  amount : decimal(10,2)
+  contents : text
+  remarks : text
 }
 
 Users ||--o{ income_and_expenditure : has
 Users ||--o{ payment : has
 Users ||--o{ transaction : makes
-
-income_and_expenditure }o--|| category : belongs to
-income_and_expenditure ||--|| transaction : is part of
-
-transaction }o--|| category : belongs to
+income_and_expenditure }o--|| category : "belongs to"
+income_and_expenditure ||--|| transaction : "is part of"
+transaction }o--|| category : "belongs to"
 transaction }o--|| payment : uses
+
 @enduml
