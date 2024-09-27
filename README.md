@@ -8,7 +8,7 @@
 - [基本設計](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/BasicDesign)
   - [テーブル定義書](https://github.com/milbon-milbon/Household-accounting-app/blob/main/docs/BasicDesign/dbDefinition.md)
   - [ER図](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/BasicDesign/er.pu)
-- [詳細設計](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign.md)
+- [詳細設計](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign)
   - [システム概要(主要機能、アーキテクチャ図、使用技術)](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/SystemOverview.md)
   - [API設計書](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/apiDesign.md)
   - [主要機能のテストシナリオ](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/e2eScenario.md)
