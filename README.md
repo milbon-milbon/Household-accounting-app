@@ -1,16 +1,17 @@
 # 💳家計簿アプリ
+学習を初めた初期段階に個人開発用に作成した簡易版家計簿アプリです。
+取引データの管理やサマリー機能、そのほかユーザーごとの収支の管理を行うことができます。
 
-このプロジェクトは、学習を初めて1か月頃に作成した[家計簿アプリ](https://github.com/milbon-milbon/Household-accounting-app.git) に関連する個人開発ウェブアプリケーションです。<br>
-取引データの管理やユーザー管理を行います。バックエンドにはNode.jsとExpress、フロントエンドにはReactを使用しています。
+## 各種ドキュメント
 
-## プロジェクト構成
-
-### 使用技術
-
-- **バックエンド**: Node.js, Express
-- **フロントエンド**: React, Next.js
-- **データベース**: MySQL (Prisma ORM)
-- **テスト**: Jest, Supertest, End-to-End テスト (E2E) には Playwright を使用
+### >[docs](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs)
+- [基本設計](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/BasicDesign)
+  - [テーブル定義書](https://github.com/milbon-milbon/Household-accounting-app/blob/main/docs/BasicDesign/dbDefinition.md)
+  - [ER図](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/BasicDesign/er.pu)
+- [詳細設計](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign.md)
+  - [システム概要(主要機能、アーキテクチャ図、使用技術)](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/SystemOverview.md)
+  - [API設計書](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/apiDesign.md)
+  - [主要機能のテストシナリオ](https://github.com/milbon-milbon/Household-accounting-app/tree/main/docs/DetailedDesign/e2eScenario.md)
 
 ## セットアップ手順
 
