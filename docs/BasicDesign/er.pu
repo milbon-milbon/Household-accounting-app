@@ -25,6 +25,7 @@ entity "income_and_expenditure" {
 entity "category" {
   *id : integer <<PK>>
   --
+  payment_id <<FK>>
   contents : varchar(100)
 }
 
@@ -54,6 +55,7 @@ entity "transaction" {
 Users ||--o{ income_and_expenditure : has
 Users ||--o{ payment : has
 Users ||--o{ transaction : makes
+payment ||--o{ category : has
 income_and_expenditure }o--|| category : "belongs to"
 income_and_expenditure ||--|| transaction : "is part of"
 transaction }o--|| category : "belongs to"

@@ -29,6 +29,7 @@
 | カラム名 | データ型 | 制約 | 説明 |
 |----------|----------|------|------|
 | id | integer | PRIMARY KEY | カテゴリーの一意識別子 |
+| payment_id | integer | FOREIGN KEY (payment.id) ON DELETE RESTRICT ON UPDATE CASCADE | 支払いID |
 | contents | varchar(100) | NOT NULL | カテゴリー内容 |
 
 ## 4. payment テーブル
