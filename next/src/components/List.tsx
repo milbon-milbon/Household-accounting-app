@@ -20,9 +20,11 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ transactions, onDelete }) => {
-  if (!transactions || transactions.length === 0) {
+  // transactions が配列であることを確認
+  if (!Array.isArray(transactions) || transactions.length === 0) {
     return <div>取引がありません</div>;
   }
+
   return (
     <div className="list-container">
       <h2>取引明細</h2>
@@ -31,8 +33,8 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
           <li key={transaction.id}>
             <div className="transaction-info">
               [{transaction.id}] {transaction.date.substring(0, 10)} -{" "}
-              {transaction.amount}円 - {transaction.type}- {transaction.details}{" "}
-              {/* detailsフィールドを表示 */}
+              {transaction.amount}円 - {transaction.type} -{" "}
+              {transaction.details}{" "}
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>
               </Link>
@@ -41,7 +43,7 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
                 onClick={() => onDelete(transaction.id)}
               >
                 削除
-              </button>{" "}
+              </button>
             </div>
           </li>
         ))}
@@ -49,5 +51,4 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
     </div>
   );
 };
-
 export default List;

@@ -10,20 +10,21 @@ interface SummaryProps {
 const Summary: React.FC<SummaryProps> = ({ transactions }) => {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
 
-  const summary = transactions.reduce(
-    (acc, transaction) => {
-      const month = transaction.date.slice(0, 7);
-      if (!acc[month]) acc[month] = { income: 0, expense: 0 };
-      if (transaction.type === "入金") {
-        acc[month].income += transaction.amount;
-      } else {
-        acc[month].expense += transaction.amount;
-      }
-      return acc;
-    },
-    {} as { [key: string]: { income: number; expense: number } },
-  );
-
+  const summary = Array.isArray(transactions)
+    ? transactions.reduce(
+        (acc, transaction) => {
+          const month = transaction.date.slice(0, 7);
+          if (!acc[month]) acc[month] = { income: 0, expense: 0 };
+          if (transaction.type === "入金") {
+            acc[month].income += transaction.amount;
+          } else {
+            acc[month].expense += transaction.amount;
+          }
+          return acc;
+        },
+        {} as { [key: string]: { income: number; expense: number } },
+      )
+    : {};
   const months = Object.keys(summary);
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
