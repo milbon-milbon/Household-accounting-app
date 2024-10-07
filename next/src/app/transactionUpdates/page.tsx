@@ -1,3 +1,5 @@
+//動的パス（/transactions/[id]）に対応するページコンポーネント。特定の取引の詳細を表示
+
 "use client";
 import React, { useEffect, useState } from "react";
 import Form from "../../../components/Form"; // 相対パスに修正
@@ -10,7 +12,7 @@ const DetailPage: React.FC = () => {
   const [transaction, setTransaction] = useState<Transaction | undefined>(
     undefined,
   );
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // 編集モードの状態を管理
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   useEffect(() => {
@@ -30,9 +32,15 @@ const DetailPage: React.FC = () => {
           console.error("Error fetching transaction:", error);
         });
     }
-  }, [pathname, apiUrl]);
+  }, [pathname, apiUrl]); // 依存配列に apiUrl を追加
 
-  const handleUpdate = (updatedTransaction: Omit<Transaction, "id">) => {
+  const handleUpdate = (updatedTransaction: {
+    date: string;
+    amount: number;
+    type: string;
+    details: string;
+    userId: number;
+  }) => {
     if (transaction) {
       fetch(`${apiUrl}/transactions/${transaction.id}`, {
         method: "PUT",
@@ -49,35 +57,27 @@ const DetailPage: React.FC = () => {
         })
         .then((data) => {
           setTransaction(data);
-          setIsEditing(false);
+          setIsEditing(false); // 編集モードを終了
         })
         .catch((error) => {
           console.error("Error updating transaction:", error);
         });
     }
   };
-
   if (!transaction) return <div>取引が見つかりません</div>;
 
   return (
     <div>
       <h2>取引詳細</h2>
       {isEditing ? (
-        <Form
-          onSubmit={handleUpdate}
-          initialValues={transaction}
-          setUserId={(id) => {
-            // ここでユーザーIDを設定する処理を追加
-            // 例: setTransaction(prev => prev ? {...prev, user_id: id} : prev);
-          }}
-        />
+        <Form onSubmit={handleUpdate} initialValues={transaction} /> // initialValues を追加
       ) : (
         <div>
-          <p>日付: {transaction.day}</p>
+          <p>日付: {transaction.date}</p>
           <p>金額: {transaction.amount}円</p>
-          <p>種類: {transaction.payment_type}</p>
-          <p>詳細: {transaction.contents}</p>
-          <p>ユーザ: {transaction.user_id}</p>
+          <p>種類: {transaction.type}</p>
+          <p>詳細: {transaction.details}</p>
+          <p>ユーザ: {transaction.userId}</p>
           <button onClick={() => setIsEditing(true)}>更新</button>
         </div>
       )}
@@ -85,5 +85,4 @@ const DetailPage: React.FC = () => {
     </div>
   );
 };
-
-export default DetailPage;
+export default DetailPage; // DetailPageコンポーネントをエクスポート

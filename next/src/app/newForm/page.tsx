@@ -77,7 +77,6 @@ const Form: React.FC<FormProps> = ({ onSubmit, initialValues, setUserId }) => {
       name, // nameの追加
       payment_items, // payment_itemsの追加
     };
-
     try {
       await onSubmit(transaction);
       setDay("");

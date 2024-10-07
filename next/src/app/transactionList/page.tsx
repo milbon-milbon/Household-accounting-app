@@ -1,3 +1,4 @@
+//取引一覧
 // 入出金履歴の一覧を表示
 
 "use client";
@@ -32,11 +33,8 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
         {transactions.map((transaction) => (
           <li key={transaction.id}>
             <div className="transaction-info">
-              [{transaction.id}]{" "}
-              {transaction.date
-                ? transaction.date.substring(0, 10)
-                : "日付不明"}{" "}
-              - {transaction.amount}円 - {transaction.type} -{" "}
+              [{transaction.id}] {transaction.date.substring(0, 10)} -{" "}
+              {transaction.amount}円 - {transaction.type} -{" "}
               {transaction.details}{" "}
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>

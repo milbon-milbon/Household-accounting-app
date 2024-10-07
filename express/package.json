@@ -8,7 +8,8 @@
     "start": "node build/app.js",
     "start:debug": "nodemon -L --inspect=0.0.0.0:9229 ./bin/www",
     "seed": "ts-node prisma/seed.ts",
-    "test": "jest"
+    "test": "jest",
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,8 @@
     "@prisma/client": "^5.20.0",
     "@types/express-validator": "^3.0.0",
     "@types/winston": "^2.4.4",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
@@ -25,6 +28,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
@@ -39,6 +44,7 @@
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
     "prisma": "^5.20.0",
+    "rimraf": "^6.0.1",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",

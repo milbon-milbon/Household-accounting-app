@@ -1,10 +1,15 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { userValidationRules, validate } from "../middlewares/validation";
+import bcrypt from "bcryptjs";
 
 const userRouter = Router();
 const prisma = new PrismaClient();
 
+const hashPassword = (password: string): string => {
+  const saltRounds = 10;
+  return bcrypt.hashSync(password, saltRounds);
+};
 // 全ユーザーの取得
 userRouter.get("/", async (req: Request, res: Response) => {
   try {
@@ -61,12 +66,14 @@ userRouter.post(
   userValidationRules(),
   validate,
   async (req: Request, res: Response) => {
-    const { email, name } = req.body;
+    const { mail, name, member, password } = req.body;
     try {
       const newUser = await prisma.user.create({
         data: {
-          email,
+          mail,
           name,
+          member,
+          password_hash: hashPassword(password), // パスワードをハッシュ化する
         },
       });
       res.status(201).json(newUser);
@@ -79,7 +86,6 @@ userRouter.post(
     }
   },
 );
-
 // 特定ユーザーの更新
 userRouter.put(
   "/:id",
@@ -87,12 +93,12 @@ userRouter.put(
   validate,
   async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const { email, name } = req.body;
+    const { mail, name } = req.body;
     try {
       const updateduser = await prisma.user.update({
         where: { id },
         data: {
-          email,
+          mail,
           name,
         },
       });
