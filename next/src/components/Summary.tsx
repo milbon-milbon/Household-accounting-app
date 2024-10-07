@@ -13,9 +13,9 @@ const Summary: React.FC<SummaryProps> = ({ transactions }) => {
   const summary = Array.isArray(transactions)
     ? transactions.reduce(
         (acc, transaction) => {
-          const month = transaction.date.slice(0, 7);
+          const month = transaction.day.slice(0, 7);
           if (!acc[month]) acc[month] = { income: 0, expense: 0 };
-          if (transaction.type === "入金") {
+          if (transaction.payment_type === "入金") {
             acc[month].income += transaction.amount;
           } else {
             acc[month].expense += transaction.amount;

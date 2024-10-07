@@ -7,11 +7,17 @@ import React from "react";
 
 export interface Transaction {
   id: number;
-  date: string;
+  user_id: number;
+  category_id: number;
+  payment_id: number;
+  member: string;
+  name: string;
+  payment_items: string;
+  payment_type: string;
+  day: string;
   amount: number;
-  type: string;
-  details: string;
-  userId: number;
+  contents?: string;
+  remarks?: string;
 }
 
 interface Props {
@@ -20,7 +26,6 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ transactions, onDelete }) => {
-  // transactions が配列であることを確認
   if (!Array.isArray(transactions) || transactions.length === 0) {
     return <div>取引がありません</div>;
   }
@@ -33,11 +38,11 @@ const List: React.FC<Props> = ({ transactions, onDelete }) => {
           <li key={transaction.id}>
             <div className="transaction-info">
               [{transaction.id}]{" "}
-              {transaction.date
-                ? transaction.date.substring(0, 10)
+              {transaction.day
+                ? transaction.day.substring(0, 10) // 'day' が正しいフィールドであればこれを使用
                 : "日付不明"}{" "}
-              - {transaction.amount}円 - {transaction.type} -{" "}
-              {transaction.details}{" "}
+              - {transaction.amount}円 - {transaction.payment_type} -{" "}
+              {transaction.contents || "詳細なし"}{" "}
               <Link href={`/transactions/${transaction.id}`}>
                 <button className="link">詳細</button>
               </Link>
